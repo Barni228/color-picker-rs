@@ -11,6 +11,8 @@ fn main() {
     let mut color_preview = frame::Frame::new(100, 30, 200, 50, "");
     color_preview.set_color(enums::Color::Red);
     color_preview.set_frame(enums::FrameType::FlatBox); // Set the frame type to fill the background
+    #[cfg(feature = "random")]
+    let mut color_preview2 = color_preview.clone();
 
     // text area with warnings
     let mut warnings = frame::Frame::new(100, 162, 200, 50, "");
@@ -59,6 +61,15 @@ fn main() {
         } else {
             false
         }
+    });
+
+    #[cfg(feature = "random")]
+    fltk::button::Button::new(150, 200, 100, 40, "Random").set_callback(move |_| {
+        let hex = Color::random().hex();
+        hex_field.set_value(&hex);
+        hex_field.redraw();
+        color_preview2.set_color(enums::Color::from_hex_str(&hex).unwrap());
+        color_preview2.redraw();
     });
 
     win.end();

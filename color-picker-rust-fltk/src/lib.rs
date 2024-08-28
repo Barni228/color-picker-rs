@@ -35,6 +35,14 @@ pub enum Color {
 
 // implement some methods
 impl Color {
+    #[cfg(feature = "random")]
+    pub fn random() -> Self {
+        let r = fastrand::u8(..);
+        let g = fastrand::u8(..);
+        let b = fastrand::u8(..);
+        Color::Rgb(r, g, b)
+    }
+
     // return hex string from color
     pub fn hex(&self) -> String {
         match self {
